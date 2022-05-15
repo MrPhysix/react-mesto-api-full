@@ -1,8 +1,8 @@
 const { app } = require('../app');
 
 const allowedCors = [
-  'https://praktikum.tk',
-  'http://praktikum.tk',
+  'https://api.mrphysix.yandex.nomoreparties.sbs',
+  'http://api.mrphysix.yandex.nomoreparties.sbs',
   'localhost:3000',
 ];
 

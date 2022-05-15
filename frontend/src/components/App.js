@@ -43,7 +43,7 @@ function App() {
   useEffect(() => {
     function handleLocalStorageAuth() {
       const jwt = localStorage.getItem('jwt');
-      auth
+      jwt && auth
         .checkToken(jwt)
         .then((res) => {
           if (res) {
