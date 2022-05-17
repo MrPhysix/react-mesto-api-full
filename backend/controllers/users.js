@@ -113,9 +113,7 @@ async function login(req, res, next) {
       httpOnly: true,
     }).send({ token });
   } catch (err) {
-    if (err.kind === 'ObjectId') {
-      next(new ValidationError('Невалидный [id]'));
-    } else if (err.name === 'LoginError') {
+    if (err.name === 'LoginError') {
       next(new LoginError('Неверный email или пароль'));
     } else next(err);
   }
