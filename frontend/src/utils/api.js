@@ -17,14 +17,12 @@ class Api {
 
   getInitialCards() {
     return fetch(`${this._url}/cards`, {
-      credentials: 'include',
       headers: this._headers,
     }).then((res) => this._checkResult(res));
   }
 
   getUserInfo() {
     return fetch(`${this._url}/users/me`, {
-      credentials: 'include',
       headers: this._headers,
     }).then((res) => this._checkResult(res));
   }
