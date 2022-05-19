@@ -40,17 +40,20 @@ function App() {
   //
   //  Auth
   //
-
   useEffect(() => {
-    async function handleLocalStorageAuth() {
+    function handleLocalStorageAuth() {
       const jwt = localStorage.getItem('jwt');
-      jwt && auth
-      .checkToken(jwt)
-        .then((data) => {
-          setLoggedIn(true);
-          setEmail(data.email);
-        })
-        .catch((err) => console.log(err));
+      try {
+        jwt && auth
+          .checkToken(jwt)
+          .then((data) => {
+            setLoggedIn(true);
+            setEmail(data.email);
+          })
+          .catch((err) => console.log(err));
+      }catch(err){
+        console.log(err)
+      }
     }
     handleLocalStorageAuth();
   }, []);
@@ -86,14 +89,19 @@ function App() {
   // Get Info
   //
 
-  useEffect(() => {
+  function getMainInfo() {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([info, initialCards]) => {
         setCards(initialCards);
         setCurrentUser(info);
       })
       .catch((err) => console.log(err));
+  }
+
+  useEffect(() => {
+    getMainInfo();
   }, []);
+
   //
   // Set Info
   //

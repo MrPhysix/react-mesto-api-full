@@ -109,7 +109,6 @@ async function login(req, res, next) {
       throw new LoginError('Пользователь не найден [token]');
     }
     res.cookie('jwt', token, {
-      domain: 'mrphysix.yandex.nomoreparties.sbs',
       maxAge: 3600000 * 24 * 7,
       httpOnly: true,
     }).send({ token });

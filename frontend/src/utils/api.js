@@ -24,7 +24,9 @@ class Api {
   getUserInfo() {
     return fetch(`${this._url}/users/me`, {
       headers: this._headers,
-    }).then((res) => this._checkResult(res));
+    })
+      .then((res) => this._checkResult(res))
+      .catch(err => console.log(err));
   }
 
   setUserInfo(info) {

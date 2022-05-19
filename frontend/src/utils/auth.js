@@ -40,7 +40,6 @@ export const signIn = (password, email, setInfoTooltip) => fetch(`${BASE_URL}/si
 
 export const checkToken = (token) => fetch(`${BASE_URL}/users/me`, {
   method: 'GET',
-  credentials: 'include',
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
