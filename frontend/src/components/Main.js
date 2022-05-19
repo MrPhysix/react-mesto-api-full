@@ -11,7 +11,7 @@ function Main({
   onCardLike,
   onCardRemove,
 }) {
-  const currentUser = React.useContext(CurrentUserContext);
+  const { currentUser } = React.useContext(CurrentUserContext);
 
   const cardList = cards.map((item) => {
     return (
@@ -29,7 +29,7 @@ function Main({
     <main className="container">
       <section className="profile">
         <button className="profile__avatar-button" onClick={onEditAvatar}>
-          <div className="profile__cover"></div>
+          <div className="profile__cover"/>
           <img
             className="profile__avatar"
             src={currentUser.avatar}

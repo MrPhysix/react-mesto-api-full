@@ -12,7 +12,7 @@ function getJwt(user) {
 }
 
 function verifyJwt(token) {
-  return jwt.verify(token, JWT_SECRET);
+  return jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'dev-key');
 }
 
 module.exports = {

@@ -25,7 +25,19 @@ const { PORT = 3000 } = process.env;
 
 const app = express();
 
-app.use(cors());
+const allowedCors = [
+  'https://mrphysix.yandex.nomoreparties.sbs',
+  'http://mrphysix.yandex.nomoreparties.sbs',
+  'https://api.mrphysix.yandex.nomoreparties.sbs',
+  'http://api.mrphysix.yandex.nomoreparties.sbs',
+  'localhost:3000',
+];
+
+app.use(cors({
+  credentials: true,
+  origin: allowedCors,
+  optionsSuccessStatus: 200,
+}));
 app.use(bodyParser.json());
 app.use(requestLogger);
 
@@ -48,7 +60,7 @@ app.post('/signup', celebrate({
     password: Joi.string().required(),
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(30),
-    avatar: Joi.string().uri().regex(URL_REGEX),
+    avatar: Joi.string().uri(),
   }),
 }), createUser);
 

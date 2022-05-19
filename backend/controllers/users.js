@@ -109,6 +109,7 @@ async function login(req, res, next) {
       throw new LoginError('Пользователь не найден [token]');
     }
     res.cookie('jwt', token, {
+      domain: 'mrphysix.yandex.nomoreparties.sbs',
       maxAge: 3600000 * 24 * 7,
       httpOnly: true,
     }).send({ token });
@@ -120,7 +121,7 @@ async function login(req, res, next) {
 }
 async function getCurrentUserInfo(req, res, next) {
   try {
-    const user = await User.findById(req.user);
+    const user = await User.findById(req.user._id);
     if (!user) {
       throw new NotFoundError('Пользователь не найден');
     }

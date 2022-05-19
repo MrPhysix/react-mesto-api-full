@@ -2,8 +2,9 @@ const { verifyJwt } = require('../utils/jwt');
 const LoginError = require('../errors/LoginError');
 
 module.exports = (req, res, next) => {
-  // const { authorization } = req.headers;
-  const { jwt } = req.cookies;
+  const { authorization } = req.headers;
+  // const authorizationJWT = req.headers.authorization.replace('Bearer ', '');
+  const jwt = req.cookies.jwt || authorization || authorization.replace('Bearer ', '');
   if (!jwt) {
     throw new LoginError('Необходима авторизация');
   }

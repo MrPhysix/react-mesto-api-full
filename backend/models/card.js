@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const { URL_REGEX } = require('../utils/regEx');
+// const { URL_REGEX } = require('../utils/regEx');
+const validator = require('validator');
 
 const { ObjectId } = mongoose.Schema.Types;
 
@@ -15,8 +16,7 @@ const cardSchema = new mongoose.Schema(
       type: String,
       required: true,
       validate: {
-        validator: (data) => URL_REGEX.test(data),
-        // validator: (data) => validator.isURL(data),
+        validator: (data) => validator.isURL(data),
         message: 'Некоректный url',
       },
     },

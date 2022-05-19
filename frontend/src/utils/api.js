@@ -6,21 +6,25 @@ class Api {
     this._headers = config.headers;
   }
 
+  // eslint-disable-next-line class-methods-use-this
   _checkResult(res) {
     if (res.ok) {
       return res.json();
     }
+    // eslint-disable-next-line prefer-promise-reject-errors
     return Promise.reject(`Ошибка: ${res.status}`);
   }
 
   getInitialCards() {
     return fetch(`${this._url}/cards`, {
+      credentials: 'include',
       headers: this._headers,
     }).then((res) => this._checkResult(res));
   }
 
   getUserInfo() {
     return fetch(`${this._url}/users/me`, {
+      credentials: 'include',
       headers: this._headers,
     }).then((res) => this._checkResult(res));
   }
@@ -56,7 +60,7 @@ class Api {
   }
 
   likeHandler(id, status) {
-    return fetch(`${this._url}/cards/likes/${id}`, {
+    return fetch(`${this._url}/cards/${id}/likes/`, {
       method: status ? 'PUT' : 'DELETE',
       headers: this._headers,
     }).then((res) => this._checkResult(res));

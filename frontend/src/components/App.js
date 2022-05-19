@@ -40,27 +40,25 @@ function App() {
   //
   //  Auth
   //
+
   useEffect(() => {
-    function handleLocalStorageAuth() {
+    async function handleLocalStorageAuth() {
       const jwt = localStorage.getItem('jwt');
       jwt && auth
-        .checkToken(jwt)
-        .then((res) => {
-          if (res) {
-            setLoggedIn(true);
-            setEmail(res.data.email);
-          }
+      .checkToken(jwt)
+        .then((data) => {
+          setLoggedIn(true);
+          setEmail(data.email);
         })
         .catch((err) => console.log(err));
     }
-
     handleLocalStorageAuth();
   }, []);
 
   function handleSignIn(password, email) {
     auth
       .signIn(password, email)
-      .then((res) => {
+      .then(() => {
         loginHandler(true);
         navigate('/');
         setEmail(email);
@@ -99,6 +97,10 @@ function App() {
   //
   // Set Info
   //
+  // useEffect(() => {
+  //   console.log('currentUser', currentUser);
+  // }, [currentUser])
+
   function handleUpdateAvatar(link) {
     setIsLoading(true);
     api
@@ -129,7 +131,7 @@ function App() {
   const [cards, setCards] = React.useState([]);
 
   function handleCardDelete(card) {
-    const isOwn = card.owner._id === currentUser._id;
+    const isOwn = card.owner === currentUser._id;
     isOwn &&
       api
         .removeItem(card._id)
@@ -141,7 +143,7 @@ function App() {
   }
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some((item) => item._id === currentUser._id);
+    const isLiked = card.likes.some((like) => like === currentUser._id);
     api
       .likeHandler(card._id, !isLiked)
       .then((newCard) => {
@@ -167,7 +169,7 @@ function App() {
   //
   //  Handlers
   //
-  const handleInfoTooltipClose = (value) => {
+  const handleInfoTooltipClose = () => {
     if (infoTooltip.result === true) {
       navigate('/sign-in');
     }
@@ -213,7 +215,7 @@ function App() {
   }, []);
   return (
     <div className="root">
-      <CurrentUserContext.Provider value={currentUser}>
+      <CurrentUserContext.Provider value={{currentUser}}>
         <Header loggedIn={loggedIn} loginHandler={loginHandler} email={email} />
         <Routes>
           <Route
@@ -296,3 +298,4 @@ function App() {
 }
 
 export default App;
+

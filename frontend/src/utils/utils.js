@@ -1,10 +1,14 @@
+const jwt = localStorage.getItem('jwt');
+const { BASE_URL } = require('./constants');
+
 export const apiConfig = {
-  baseUrl: 'https://api.mrphysix.yandex.nomoreparties.sbs',
+  baseUrl: BASE_URL,
   headers: {
-    authorization: '2181393e-dcbd-4ec4-b795-5358ac072ebb',
+    'Authorization': `${jwt}`,
     'Content-Type': 'application/json',
   },
 };
+
 export const validationConfig = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',

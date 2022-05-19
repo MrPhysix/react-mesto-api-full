@@ -44,8 +44,8 @@ async function likeCard(req, res, next) {
 
 async function getCards(req, res, next) {
   try {
-    const card = await Card.find({});
-    res.send(card);
+    const cards = await Card.find({});
+    res.send(cards.reverse());
   } catch (err) {
     next(err);
   }
