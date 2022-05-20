@@ -4,6 +4,7 @@ class Api {
   constructor(config) {
     this._url = config.baseUrl;
     this._headers = config.headers;
+    this.jwt = localStorage.getItem('jwt');
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -15,24 +16,38 @@ class Api {
     return Promise.reject(`Ошибка: ${res.status}`);
   }
 
-  getInitialCards() {
-    return fetch(`${this._url}/cards`, {
-      headers: this._headers,
-    }).then((res) => this._checkResult(res));
+  _getToken(){
+    this.jwt = localStorage.getItem('jwt');
   }
 
-  getUserInfo() {
-    return fetch(`${this._url}/users/me`, {
-      headers: this._headers,
-    })
-      .then((res) => this._checkResult(res))
-      .catch(err => console.log(err));
+  _getHeaders(){
+    return {
+        ...this._headers,
+        'Authorization': `${this.jwt}`,
+      }
   }
 
-  setUserInfo(info) {
+  async getInitialCards() {
+    await this._getToken();
+      return fetch(`${this._url}/cards`, {
+        headers: this._getHeaders(),
+      }).then((res) => this._checkResult(res));
+  }
+
+  async getUserInfo() {
+    await this._getToken();
+      return fetch(`${this._url}/users/me`, {
+        headers: this._getHeaders(),
+      })
+        .then((res) => this._checkResult(res))
+        .catch(err => console.log(err));
+    }
+
+  async setUserInfo(info) {
+    await this._getToken();
     return fetch(`${this._url}/users/me`, {
       method: 'PATCH',
-      headers: this._headers,
+      headers: this._getHeaders(),
       body: JSON.stringify({
         name: info.name,
         about: info.about,
@@ -41,10 +56,11 @@ class Api {
     }).then((res) => this._checkResult(res));
   }
 
-  addCard(data) {
+  async addCard(data) {
+    await this._getToken();
     return fetch(`${this._url}/cards`, {
       method: 'POST',
-      headers: this._headers,
+      headers: this._getHeaders(),
       body: JSON.stringify({
         name: data.name,
         link: data.link,
@@ -52,24 +68,27 @@ class Api {
     }).then((res) => this._checkResult(res));
   }
 
-  removeItem(id) {
+  async removeItem(id) {
+    await this._getToken();
     return fetch(`${this._url}/cards/${id}`, {
       method: 'DELETE',
-      headers: this._headers,
+      headers: this._getHeaders(),
     }).then((res) => this._checkResult(res));
   }
 
-  likeHandler(id, status) {
+  async likeHandler(id, status) {
+    await this._getToken();
     return fetch(`${this._url}/cards/${id}/likes/`, {
       method: status ? 'PUT' : 'DELETE',
-      headers: this._headers,
+      headers: this._getHeaders(),
     }).then((res) => this._checkResult(res));
   }
 
-  changeUserAvatar(picture) {
+  async changeUserAvatar(picture) {
+    await this._getToken();
     return fetch(`${this._url}/users/me/avatar`, {
       method: 'PATCH',
-      headers: this._headers,
+      headers: this._getHeaders(),
       body: JSON.stringify({
         avatar: picture,
       }),

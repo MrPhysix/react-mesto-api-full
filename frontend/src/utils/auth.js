@@ -33,7 +33,7 @@ export const signIn = (password, email, setInfoTooltip) => fetch(`${BASE_URL}/si
       console.log(`signIn data token ${data.token}`);
       localStorage.setItem('jwt', data.token);
      // document.cookie = `jwt=${data.token}`;
-      return data;
+      return data.token;
     }
   })
   .catch((err) => console.log(`signIn err ${err}`));

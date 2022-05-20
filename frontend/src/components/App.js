@@ -56,7 +56,7 @@ function App() {
       }
     }
     handleLocalStorageAuth();
-  }, []);
+  }, [loggedIn]);
 
   function handleSignIn(password, email) {
     auth
@@ -89,18 +89,21 @@ function App() {
   // Get Info
   //
 
-  function getMainInfo() {
-    Promise.all([api.getUserInfo(), api.getInitialCards()])
-      .then(([info, initialCards]) => {
+  useEffect(() => {
+    loggedIn && Promise.all([api.getUserInfo(), api.getInitialCards()])
+      .then(([userInfo, initialCards]) => {
+        console.log(userInfo);
+        console.log(initialCards);
         setCards(initialCards);
-        setCurrentUser(info);
+        setCurrentUser(userInfo);
+      })
+      .then(() => {
+        console.log('UseEffect PromiseAll');
+        console.log(currentUser)
       })
       .catch((err) => console.log(err));
-  }
 
-  useEffect(() => {
-    getMainInfo();
-  }, []);
+  }, [loggedIn]);
 
   //
   // Set Info
