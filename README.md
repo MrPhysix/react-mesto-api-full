@@ -10,6 +10,7 @@
 Бэкенд расположен в директории `backend/`, а фронтенд - в `frontend/`.
 
 
-[Mesto](https://mrphysix.yandex.nomoreparties.sbs/sign-up "Mesto")
 
+[Mesto](https://mrphysix.yandex.nomoreparties.sbs/sign-up "Mesto") 
 [Mesto.API](https://api.mrphysix.yandex.nomoreparties.sbs/sign-up "Mesto")
+*(нужен деплой на новый сервер)*
